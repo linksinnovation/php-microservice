@@ -1,0 +1,12 @@
+docker export <CONTAINER ID> > /home/export.tar
+
+
+docker save nginx > nginx.zip
+docker load < /home/save.tar
+
+docker run -d -p 8011:80 --name frontend01 \
+	--add-host plus.linksinnovation.com:192.168.99.101 \
+	--add-host minus.linksinnovation.com:192.168.99.101 \
+	linksinnovation/frontend
+
+http://192.168.99.101:5000/v2/
