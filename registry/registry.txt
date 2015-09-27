@@ -1,0 +1,61 @@
+docker run \
+  -d \
+  -e ENV_DOCKER_REGISTRY_HOST=registry.linksinnovation.com \
+  -e ENV_DOCKER_REGISTRY_PORT=5000 \
+  -p 8000:80 \
+  -e ENV_DOCKER_REGISTRY_USE_SSL=1 \
+  konradkleine/docker-registry-frontend
+
+##### Check Docker Machine IP  ####
+docker-machine ip You_Name
+
+
+##### Map Host  ####
+sudo vi /etc/hosts
+
+docker_machie_ip localhost
+
+---- example ---- 
+192.168.99.101 localhost
+
+##### Test Ping #####
+ping localhost 
+--- Check IP return 192.168.99.101 ---
+
+##### Pull Docker Registry From Docker Hub ####
+docker pull registry:2
+
+##### Load Docker Registry from zip to images (inside zip folder)####
+docker load < registry2.zip
+
+##### Run Registry ####
+docker run -d -p 5000:5000 --name registry registry:2
+
+##### Run Registry (Persistance) ####
+docker run -d -p 5000:5000 -v /Users/getzyway/Desktop/registry:/var/lib/registry --name registry registry:2
+
+##### Tag Images for registry ####
+docker images
+docker tag linksinnovation/frontend localhost:5000/registry
+
+##### Push Image form your machine to local registry ####
+docker push localhost:5000/registry
+
+##### Test Delete Tag Images in local ####
+docker rmi localhost:5000/registry
+
+##### Push Image from local registry to your machine ####
+docker pull localhost:5000/registry
+
+
+
+##### insecure linux ####
+vi /etc/sysconfig/docker
+
+--insecure-registry registry.linksinnovation.com:5000 --insecure-registry 54.255.154.49:5000 
+
+##### insecure docker-machine ####
+docker-machine ssh dev
+vi /var/lib/boot2docker/profile 
+
+EXTRA_ARGS="--insecure-registry registry.linksinnovation.com:5000"
